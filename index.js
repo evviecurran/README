@@ -1,50 +1,12 @@
-  // TODO: Include packages needed for this application
-
-// TODO: Create an array of questions for user input
-//const questions = [];
-
-// TODO: Create a function to write README file
-//function writeToFile(fileName, data) {}
-
-// TODO: Create a function to initialize app
-//function init() {}
-
-// Function call to initialize app
-//init();
-
-
-
-const inquirer = require('inquirer');
+// TODO: Include packages needed for this application
 const fs = require('fs');
-
-const generateHTML = ({ projectName, productDescription, github }) =>
-  `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-  <title>Document</title>
-</head>
-<body>
-  <header class="p-5 mb-4 header bg-light">
-    <div class="container">
-      <h1 class="display-4">Hi! ${projectName}</h1>
-      <p class="lead">A description of my project ${productDescription}.</p>
-      <h3>Example heading <span class="badge bg-secondary">Contact Me</span></h3>
-      <ul class="list-group">
-        <li class="list-group-item">My GitHub username is ${github}</li>
-      </ul>
-    </div>
-  </header>
-</body>
-</html>`;
-
-inquirer
-  .prompt([
+const inquirer = require('inquirer');
+const generateReadMe= require('./Develop/utils/generateMarkdown.js');
+// TODO: Create an array of questions for user input
+const questions = [
     {
       type: 'input',
-      name: 'projecName',
+      name: 'projectName',
       message: 'What is the name of your project?',
     },
     {
@@ -53,7 +15,7 @@ inquirer
       message: 'Enter a description of your project',
     },
     {
-      
+     
       type: 'input',
       name: 'features',
       message: 'Add in your project features:',
@@ -78,22 +40,34 @@ inquirer
         name: 'credits',
         message: 'Enter credits for your project:'
     },
-    {
-        type: 'checkbox',
+      {
+        type: 'list',
+        message: 'What license did you use?',
+        choices: 
+        [
+            'MIT', 
+            'Apache license 2.0', 
+            'ISC License (ISC)', 
+            'GNU GPL v3', 
+            'None'
+        ],
         name: 'license',
-        message: 'Enter license information for your project:',
-        choices: [
-            'Feature 1',
-            'Feature 2',
-            'Feature 3',
-        ]
-    }
-  ])   
+    },
+  ];
   
+  inquirer.prompt(questions)
   .then((answers) => {
-    const htmlPageContent = generateHTML(answers);
+      const readmeContent = generateMarkdown(answers);
 
-    fs.writeFile('README', htmlPageContent, (err) =>
-      err ? console.log(err) : console.log('Successfully created README!')
-    );
+      fs.writeFile('README.md', readmeContent, (err) =>
+          err ? console.log(err) : console.log('generating your high quality readMe!')
+      )
   });
+// TODO: Create a function to write README file
+// function writeToFile(fileName, data) {}
+
+// TODO: Create a function to initialize app
+function init() {}
+
+// Function call to initialize app
+init();
