@@ -1,7 +1,8 @@
 // TODO: Include packages needed for this application
 const fs = require('fs');
 const inquirer = require('inquirer');
-const generateReadMe= require('./Develop/utils/generateMarkdown.js');
+const generateMarkdown= require('./Develop/utils/generateMarkdown.js');
+
 // TODO: Create an array of questions for user input
 const questions = [
     {
@@ -54,13 +55,14 @@ const questions = [
         name: 'license',
     },
   ];
+
   
   inquirer.prompt(questions)
   .then((answers) => {
       const readmeContent = generateMarkdown(answers);
 
       fs.writeFile('README.md', readmeContent, (err) =>
-          err ? console.log(err) : console.log('generating your high quality readMe!')
+          err ? console.log(err) : console.log('Generating your high quality readMe!')
       )
   });
 // TODO: Create a function to write README file
